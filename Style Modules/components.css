@@ -1,9 +1,8 @@
-.container {
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+.container, .card-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
 }
 
 #result {
@@ -11,4 +10,19 @@
     padding: 10px;
     background-color: #e9ecef; /* Light gray background for the result */
     border-radius: 5px;
+}
+
+.panel, .map {
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: white;
+}
+.panel {
+    flex: 1;
+}
+
+.map {
+    width: 300px;
+    height: 300px;
 }
