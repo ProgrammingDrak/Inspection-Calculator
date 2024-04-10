@@ -1,60 +1,8 @@
-/* Basic Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+@import 'Style Modules/base.css';
+@import 'Style Modules/typography.css';
+@import 'Style Modules/forms.css';
+@import 'Style Modules/components.css';
 
-body {
-    font-family: 'Open Sans', sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
-    line-height: 1.6;
-}
-
-.container {
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-h2 {
-    color: #007bff; /* A blue that might resemble the website's theme */
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-top: 20px;
-    color: #666;
-}
-
-input, select, button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px; /* Slight rounding of corners */
-    font-family: 'Open Sans', sans-serif;
-}
-
-button {
-    background-color: #007bff; /* Vibrant blue for button */
-    color: white;
-    border: 0;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:hover {
-    background-color: #0056b3; /* Darker shade of blue on hover */
-}
-
-#result {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #e9ecef; /* Light gray background for the result */
-    border-radius: 5px;
+:root {
+     --trim-color: #007bff; 
 }
