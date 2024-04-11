@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspection Pricing Estimator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="card-container">
+    <div class="panel">
+      <div>
+        <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="" class="inline-element">
+        <h2 class="inline-element">Address for Inspection</h2>
+      </div>
+      <form action="details.html" method="get">
+        <input type="text" placeholder="Address" id="location-input" name="address"/>
+        <input type="text" placeholder="Apt, Suite, etc (optional)" name="unit"/>
+        <input type="text" placeholder="City" id="locality-input" name="city"/>
+        <div class="half-input-container">
+            <input type="text" class="half-input" placeholder="State/Province" id="state" name="state"/>
+            <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input" name="zip"/>
+        </div>
+        <input type="text" placeholder="Country" id="country-input"/>
+        <button class="button-cta" type="submit">Schedule an Inspection</button>
+    </form>
+</div>
+<div class="map" id="gmp-map"></div>
+</div>
+<script src="googleMaps.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHubCbP4M8rjg6bV4uupfkel6FINpR_FA&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script>
+</body>
+</html>
