@@ -38,27 +38,40 @@
     }
 
     function fillInAddress(place) {
-      function getComponentName(componentType) {
-        for (const component of place.address_components || []) {
-          if (component.types[0] === componentType) {
-            return SHORT_NAME_ADDRESS_COMPONENT_TYPES.has(componentType) ?
-                component.short_name :
-                component.long_name;
+      const addressComponents = place.address_components;
+      const mapping = {
+          street_number: 'location-input', // Assuming this is where the street number should go
+          locality: 'locality-input',
+          administrative_area_level_1: 'state-input',
+          postal_code: 'postal_code-input',
+          country: 'country-input'
+      };
+  
+      addressComponents.forEach(component => {
+          const addressType = component.types[0];
+          const inputId = mapping[addressType];
+          if (inputId) {
+              const inputElement = document.getElementById(inputId);
+              if (inputElement && addressType === 'street_number') {
+                  inputElement.value += ' ' + component.short_name;
+              } else if (inputElement) {
+                  inputElement.value = component.short_name;
+              }
           }
-        }
-        return '';
-      }
 
-      function getComponentText(componentType) {
-        return (componentType === 'location') ?
-            `${getComponentName('street_number')} ${getComponentName('route')}` :
-            getComponentName(componentType);
-      }
-
-      for (const componentType of ADDRESS_COMPONENT_TYPES_IN_FORM) {
-        getFormInputElement(componentType).value = getComponentText(componentType);
-      }
-    }
+            const streetNumber = place.address_components.find(comp => comp.types.includes('street_number'))?.long_name || '';
+            const streetName = place.address_components.find(comp => comp.types.includes('route'))?.long_name || '';
+            
+            // Set the location input to just the street number and name
+            const locationInput = document.getElementById('location-input');
+            if (locationInput) {
+                locationInput.value = `${streetNumber} ${streetName}`.trim();
+            }
+        
+        
+      });
+  }
+  
 
     function renderAddress(place, map, marker) {
       if (place.geometry && place.geometry.location) {
@@ -93,6 +106,9 @@
           window.alert(`No details available for input: '${place.name}'`);
           return;
         }
+
+        console.log(place.address_components);  // Log address components to the console
+
         renderAddress(place, map, marker);
         fillInAddress(place);
       });

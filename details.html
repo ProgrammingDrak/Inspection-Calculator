@@ -38,12 +38,12 @@
         document.addEventListener('DOMContentLoaded', function () {
             const params = new URLSearchParams(window.location.search);
             const street = params.get('address') || '';
-            const street = params.get('unit') || '';
+            const unit = params.get('unit') ? ', ' + params.get('unit') : '';  // Add unit if available, prefixed with a comma
             const city = params.get('city') || '';
             const state = params.get('state') || '';
-            const zip = params.get('zip') || '';
-            const country = params.get('country') || '';
-            const fullAddress = `${street}, ${city}, ${state} ${zip}, ${country}`;
+            const zip = params.get('postal_code') || '';
+            const fullAddress = `${street}${unit}, ${city}, ${state} ${zip}`;
+            
             document.getElementById('propertyAddress').value = fullAddress;
 
         // Now you can use fullAddress to make API calls
