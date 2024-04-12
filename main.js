@@ -39,3 +39,4 @@ function initAutocomplete() {
         console.log(place); // You can extract other details from the 'place' object.
     });
 }
+

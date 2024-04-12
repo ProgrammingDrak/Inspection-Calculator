@@ -1,10 +1,20 @@
 input, select, button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px; /* Slight rounding of corners */
-    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 10px;
+    height: 30px;
+    font-family: Roboto, sans-serif;
+}
+
+.button-cta {
+    background-color: #1976d2;
+    border: 0;
+    border-radius: 21px;
+    color: white;
+    cursor: pointer;
+    font-family: "Google Sans Text", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 27px;
+    padding: 3.5px 10.5px;
 }
 
 button {
