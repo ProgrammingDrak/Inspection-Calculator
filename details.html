@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property Details</title>
     <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
 </head>
 <body>
     <div class="container">
@@ -12,6 +13,11 @@
         <form id="pricingForm">
             <label for="propertyAddress">Property Address:</label>
             <input type="text" id="propertyAddress" value="" required>
+
+            <!-- This should eventually get replaced by code that calculates
+            it based upon the address distance from -->
+            <label for="propertyAddress">Distance</label> 
+            <input type="text" id="distance" value="" required>
 
             <label for="yearBuilt">Year Built:</label>
             <input type="number" id="yearBuilt" min="1300" max="2024" required>
@@ -29,12 +35,10 @@
         </form>
         <div id="result"></div>
     </div>
+    <!-- Javascript to autofill the "Property Address" part of the form and
+    create variable with the full address for future API use.-->
     <script>
-        // Fill in the property address from the query parameters
-        //THIS IS BROKEN AND NEEDS TO BE FIXED. NONE OF THE INFORMATION IS BEING PASSED
-        // FROM THE ADDRESS HTML FILE TO THE DETAILS HTML FILE
-        // I WANT IT TO PASS THE WHOLE ADDRESS AS A STRING BOTH TO DISPLAY AND TO BE ABLE
-        // TO USE THAT ADDRESS TO CALL THE BING API TO GET ALL THE DETAILS AVAILABLE ON IT
+        
         document.addEventListener('DOMContentLoaded', function () {
             const params = new URLSearchParams(window.location.search);
             const street = params.get('address') || '';
