@@ -1,10 +1,10 @@
 function calculatePrice() {
     console.log("The Calclulate price function started.")
         const fullAddress = document.getElementById('propertyAddress');
-        const distance = calculateDistance(fullAddress);
         const yearBuilt = document.getElementById('yearBuilt').value;
         const size = document.getElementById('size').value;
         const foundation = document.getElementById('foundation').value;
+        const inspectorAddress = '1010 timrod st Columbia SC 29203';
 
         let price = 0;
 
@@ -23,8 +23,7 @@ function calculatePrice() {
 
         // Foundation calculation
         if (foundation === 'crawlspace') price += 100;
-
-        // Location calculation
+        // Distance calculation
         price += distance * 0.15;
 
         // Using window.alert to show the result
@@ -32,36 +31,87 @@ function calculatePrice() {
 
 }
 
-// Google function to calculate the distance from the inspector's address to the target property
-function calculateDistance(propertyAddress) {
-    console.log("The Calclulate distance function started.")
-    var service = new google.maps.DistanceMatrixService();
-    service.getDistanceMatrix({
-        origins: ['1010 Timrod St, Columbia, SC 29203'],
-        destinations: [propertyAddress],
-        travelMode: 'DRIVING',
-        unitSystem: google.maps.UnitSystem.IMPERIAL,  // miles and feet; for metric system use UnitSystem.METRIC
-    }, callback);
-
-    function callback(response, status) {
-        if (status == 'OK') {
-            var origins = response.originAddresses;
-            var destinations = response.destinationAddresses;
-            for (var i = 0; i < origins.length; i++) {
-                var results = response.rows[i].elements;
-                for (var j = 0; j < results.length; j++) {
-                    var element = results[j];
-                    var distance = element.distance.text;
-                    var duration = element.duration.text;
-                    var from = origins[i];
-                    var to = destinations[j];
-                    console.log('Distance from ' + from + ' to ' + to + ' is ' + distance + ', taking ' + duration);
-                    // You can now use the distance to update the input field or display it
-                    document.getElementById('distance').value = distance;  // Update the distance input box
-                }
-            }
-        } else {
-            console.error('Distance Matrix request failed due to ' + status);
+function initMap() {
+    const inspectorAddress = '1010 timrod st Columbia SC 29203';
+    const fullAddress = '441 griffin road greenville sc'
+    const bounds = new google.maps.LatLngBounds();
+    const markersArray = [];
+    const map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 55.53, lng: 9.4 },
+      zoom: 10,
+    });
+    // initialize services
+    const geocoder = new google.maps.Geocoder();
+    const service = new google.maps.DistanceMatrixService();
+    // build request
+    const origin1 = inspectorAddress;
+    const destinationA = fullAddress;
+    const request = {
+      origins: [origin1],
+      destinations: [destinationA],
+      travelMode: google.maps.TravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.METRIC,
+      avoidHighways: false,
+      avoidTolls: false,
+    };
+  
+    // put request on page
+    document.getElementById("request").innerText = JSON.stringify(
+      request,
+      null,
+      2,
+    );
+    // get distance matrix response
+    service.getDistanceMatrix(request).then((response) => {
+      // put response
+      document.getElementById("response").innerText = JSON.stringify(
+        response,
+        null,
+        2,
+      );
+  
+      // show on map
+      const originList = response.originAddresses;
+      const destinationList = response.destinationAddresses;
+  
+      deleteMarkers(markersArray);
+  
+      const showGeocodedAddressOnMap = (asDestination) => {
+        const handler = ({ results }) => {
+          map.fitBounds(bounds.extend(results[0].geometry.location));
+          markersArray.push(
+            new google.maps.Marker({
+              map,
+              position: results[0].geometry.location,
+              label: asDestination ? "D" : "O",
+            }),
+          );
+        };
+        return handler;
+      };
+  
+      for (let i = 0; i < originList.length; i++) {
+        const results = response.rows[i].elements;
+  
+        geocoder
+          .geocode({ address: originList[i] })
+          .then(showGeocodedAddressOnMap(false));
+  
+        for (let j = 0; j < results.length; j++) {
+          geocoder
+            .geocode({ address: destinationList[j] })
+            .then(showGeocodedAddressOnMap(true));
         }
+      }
+    });
+  }
+  
+  function deleteMarkers(markersArray) {
+    for (let i = 0; i < markersArray.length; i++) {
+      markersArray[i].setMap(null);
     }
-}
+  
+    markersArray = [];
+  }
+  
+  window.initMap = initMap;

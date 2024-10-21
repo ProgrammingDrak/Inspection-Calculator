@@ -40,7 +40,7 @@
     function fillInAddress(place) {
       const addressComponents = place.address_components;
       const mapping = {
-          street_number: 'location-input', // Assuming this is where the street number should go
+          street_number: 'location-input',
           locality: 'locality-input',
           administrative_area_level_1: 'state-input',
           postal_code: 'postal_code-input',
